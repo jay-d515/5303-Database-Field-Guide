@@ -1,8 +1,5 @@
 from fastapi.responses import JSONResponse
 
-
-# I chose a function because it can be reused for both success and error responses.
-# Additionally, it has nothing to do with the database.
 def api_response(data=None, *, response_code=200, error_response=None,
                  total_size=None, offset=None,limit=None) -> dict:
     if isinstance(data, list):
