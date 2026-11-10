@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>13 – Filter and sort</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+<main class="max-w-2xl mx-auto p-6 space-y-4" x-data="productCatalog()" x-init="searchProducts()">
+    <h1 class="text-2xl font-bold">Product catalog</h1>
+
+    <section class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-4">
+        <div class="relative">
+            <input type="search" x-model="query" @input.debounce.400ms="searchProducts()"
+                   @keydown.escape="query = ''; searchProducts()"
+                   placeholder="Search names (optional)"
+                   class="w-full border border-gray-300 rounded px-3 py-2 pr-24">
+            <span x-show="loading" class="absolute right-3 top-2.5 text-sm text-gray-500">Searching…</span>
+        </div>
+
+        <!-- sm:grid-cols-3: three columns on screens at least "sm" wide; one column on phones -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <label class="block">
+                <span class="block text-sm font-medium mb-1">Min price ($)</span>
+                <input type="number" min="0" step="0.01" x-model="minPrice"
+                       @input.debounce.400ms="searchProducts()"
+                       class="w-full border border-gray-300 rounded px-3 py-2">
+            </label>
+            <label class="block">
+                <span class="block text-sm font-medium mb-1">Max price ($)</span>
+                <input type="number" min="0" step="0.01" x-model="maxPrice"
+                       @input.debounce.400ms="searchProducts()"
+                       class="w-full border border-gray-300 rounded px-3 py-2">
+            </label>
+            <label class="block">
+                <span class="block text-sm font-medium mb-1">Sort by</span>
+                <!-- A select changes in one step, so no debounce needed. -->
+                <select x-model="sort" @change="searchProducts()"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                    <option value="name">Name (A–Z)</option>
+                    <option value="price_asc">Price: low to high</option>
+                    <option value="price_desc">Price: high to low</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center gap-2">
+                Show
+                <select x-model.number="limit" @change="searchProducts()" class="border border-gray-300 rounded px-2 py-1">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="100">100</option>
+                </select>
+            </label>
+            <button type="button" @click="resetFilters()" class="text-blue-600 hover:underline">Reset filters</button>
+        </div>
+
+        <p class="text-sm text-gray-500">Requested: <code x-text="lastUrl"></code></p>
+    </section>
+
+    <section class="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+        <p x-show="tooShort" class="text-sm text-gray-500">Type at least 2 characters to search names.</p>
+        <p x-show="error" x-text="error" class="text-red-700"></p>
+        <p x-show="!loading && !error && results.length === 0" class="text-gray-500">No products match these filters.</p>
+
+        <table x-show="results.length" class="w-full text-left text-sm">
+            <thead class="border-b border-gray-200">
+                <tr><th class="py-2">Product</th><th class="text-right">Price</th></tr>
+            </thead>
+            <tbody>
+                <template x-for="product in results" :key="product.id">
+                    <tr class="border-b border-gray-100">
+                        <td class="py-2" x-text="product.name"></td>
+                        <td class="text-right" x-text="`$${product.price}`"></td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<script>
+    const MIN_LENGTH = 2;
+
+    function productCatalog() {
+        return {
+            query: '',
+            minPrice: '',
+            maxPrice: '',
+            sort: 'name',
+            limit: 10,
+
+            results: [],
+            loading: false,
+            error: '',
+            lastUrl: '',
+            requestCount: 0,
+
+            get tooShort() {
+                const length = this.query.trim().length;
+                return length > 0 && length < MIN_LENGTH;
+            },
+
+            // Turn the Alpine state into query parameters. Empty filters are left out entirely.
+            buildParams() {
+                const params = new URLSearchParams({ sort: this.sort, limit: this.limit });
+                const term = this.query.trim();
+                if (term.length >= MIN_LENGTH) params.set('q', term);
+                if (this.minPrice !== '') params.set('min_price', this.minPrice);
+                if (this.maxPrice !== '') params.set('max_price', this.maxPrice);
+                return params;
+            },
+
+            async searchProducts() {
+                if (this.tooShort) return;  // wait for more letters; keep the current results
+
+                const myNumber = ++this.requestCount;  // lesson 12's request counter
+                this.lastUrl = `/api/products?${this.buildParams()}`;
+                this.loading = true;
+                this.error = '';
+                try {
+                    const response = await fetch(this.lastUrl);
+                    const data = await response.json();
+                    if (myNumber !== this.requestCount) return;  // a newer search exists
+                    if (!response.ok) {
+                        // Errors now arrive in the standard response format
+                        const err = data.error_response || {};
+                        const details = Array.isArray(err.details)
+                            ? err.details.map(d => `${d.field.split('.').at(-1)}: ${d.message}`).join('; ')
+                            : '';
+                        throw new Error(details || err.message || `The server answered ${response.status}`);
+                    }
+                    this.results = data.data;
+                } catch (err) {
+                    this.results = [];
+                    this.error = `Search failed: ${err.message}`;
+                } finally {
+                    if (myNumber === this.requestCount) this.loading = false;
+                }
+            },
+
+            resetFilters() {
+                this.query = '';
+                this.minPrice = '';
+                this.maxPrice = '';
+                this.sort = 'name';
+                this.limit = 10;
+                this.searchProducts();
+            },
+        };
+    }
+</script>
+</body>
+</html>

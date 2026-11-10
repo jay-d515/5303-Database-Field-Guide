@@ -1,0 +1,19 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0 -- C:\Users\jadyn\AppData\Local\Programs\Python\Python312\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\jadyn\5303-Database-Field-Guide\assignments\standardizing_api_responses\assignment2
+plugins: anyio-4.16.0
+collecting ... collected 10 items
+
+test.py::test_limit PASSED                                               [ 10%]
+test.py::test_offset PASSED                                              [ 20%]
+test.py::test_beyond PASSED                                              [ 30%]
+test.py::test_404 PASSED                                                 [ 40%]
+test.py::test_bad_page PASSED                                            [ 50%]
+test.py::test_products_standard_format PASSED                            [ 60%]
+test.py::test_search_total_size PASSED                                   [ 70%]
+test.py::test_one_product_is_dict PASSED                                 [ 80%]
+test.py::test_create_then_duplicate_customer PASSED                      [ 90%]
+test.py::test_invalid_body PASSED                                        [100%]
+
+======================== 10 passed, 1 warning in 3.48s ========================
