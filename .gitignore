@@ -33,7 +33,7 @@ datasets/store/generated/
 datasets/people_products/generated/*
 !datasets/people_products/generated/classroom/
 
-# Driver output (students commit theirs in their own repo)
+# Driver output (students commit theirs in their course repo)
 lab/api/starter_code/results/
 lab/api/starter_code/results_*/
 

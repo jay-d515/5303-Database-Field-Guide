@@ -1,0 +1,3 @@
+# requirements.txt  (required)
+# One package per line: what api.py imports. Typically fastapi,
+# uvicorn[standard], pymongo, and redis (the same as lessons/requirements.txt).

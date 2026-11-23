@@ -1,0 +1,1 @@
+run,cache_state,requests,avg_ms,min_ms,max_ms,p95_ms,requests_per_sec,hits,misses

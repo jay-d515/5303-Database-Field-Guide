@@ -1,0 +1,8 @@
+-- my_load.sql  (required: "the loader you adapted", 04_model B3)
+--
+-- Your loader for my_schema.sql, adapted from the staged approach in
+-- engines/01_sqlite/05_load/load_classroom.sql: land raw TEXT in staging,
+-- fill parents before children, look up ids on natural keys, drop staging.
+--
+-- It should rebuild your database from nothing, e.g.:
+--   sqlite3 my_store.db ".read my_schema.sql" ".read my_load.sql"

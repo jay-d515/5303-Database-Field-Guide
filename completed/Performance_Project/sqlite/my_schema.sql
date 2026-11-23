@@ -1,0 +1,5 @@
+-- my_schema.sql  (required, 04_model B3)
+--
+-- Your schema for the people_products data: tables, primary keys, foreign
+-- keys, and NOT NULL / UNIQUE / CHECK constraints, each justified by a
+-- check in your_turn_checks.sql.

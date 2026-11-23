@@ -1,14 +1,17 @@
 # Git & GitHub
 
-Two repositories, two jobs:
+Two folders on your machine, but only one repo is yours:
 
-| Repo                         | What it is                     | You…                                         |
-| ---------------------------- | ------------------------------ | -------------------------------------------- |
-| **5303-Database-Field-Guide** | the course materials          | clone it, `git pull` for updates, never edit |
-| **5303-work** (yours)        | your FINDINGS, routes, schemas | create it, commit, push                      |
+| Folder                        | What it is                                          | You…                                         |
+| ----------------------------- | --------------------------------------------------- | -------------------------------------------- |
+| **5303-Database-Field-Guide** | the course materials (a clone, not your repo)       | clone it, `git pull` for updates, never edit |
+| **your course repo**          | one folder per assignment, including `Performance_Project/` | commit, push                           |
 
-Keeping your work out of the field guide means `git pull` always succeeds:
-there are no edits of yours for an update to collide with.
+Use the course repo you already submit your other assignments from. This
+project doesn't need a repo of its own: it's one more folder in that one.
+
+Keeping your work out of the field guide clone means `git pull` always
+succeeds: there are no edits of yours for an update to collide with.
 
 ## 1. Install Git
 
@@ -52,52 +55,62 @@ git pull
 
 If `git pull` complains about local changes, you edited something in the
 clone. `git stash` sets your edits aside, and `git pull` will then work.
-Move anything you want to keep into your own repo.
+Move anything you want to keep into your course repo.
 
-## 4. Create your own repo
+## 4. Add the project folder to your course repo
+
+Your course repo holds every assignment, one folder each, at the top level.
+The examples below call it `~/5303/my-repo`; use your repo's real name and
+location. If you don't have it on this machine yet, clone it next to the
+field guide:
 
 ```bash
 cd ~/5303
-gh repo create 5303-work --private --clone
-cd 5303-work
+git clone https://github.com/<your-username>/<your-repo>.git my-repo
 ```
 
-Share it with your instructor however they ask: usually by adding them as a
-collaborator (**Settings → Collaborators** on GitHub).
+Make sure your instructor can see it (if they ask you to, add them as a
+collaborator under **Settings → Collaborators** on GitHub).
 
-A layout that keeps each unit's work together:
+This project's work goes in `Performance_Project/`, laid out one folder per
+unit:
 
 ```
-5303-work/
-├── README.md
-├── sqlite/
-│   ├── FINDINGS_sqlite.md
-│   ├── my_schema.sql
-│   └── your_turn_checks.sql
-├── duckdb/
-└── api/                 your copy of lab/api/starter_code (see below)
+my-repo/
+├── Caching_Project/             (other assignments sit beside it)
+├── Standardizing_Api_Responses/
+└── Performance_Project/
+    ├── README.md
+    ├── sqlite/
+    │   ├── FINDINGS_sqlite.md
+    │   ├── my_schema.sql
+    │   └── your_turn_checks.sql
+    ├── duckdb/
+    └── api/                     your copy of lab/api/starter_code (see below)
 ```
 
 ### Working on files that come from the field guide
 
 Some files start in the field guide and become yours once you fill them in,
 like [your_turn_checks.sql](../engines/01_sqlite/04_model/your_turn_checks.sql).
-Copy them into `5303-work` and edit the copy.
+Copy them into `Performance_Project/` in your repo and edit the copy.
 
 **The API starter code** works from a copy too. Tell it where the field
-guide is, and it finds the SQL files there:
+guide's `Performance_Project` folder is, and it finds the SQL files there:
 
 ```bash
-cp -R ~/5303/5303-Database-Field-Guide/lab/api/starter_code ~/5303/5303-work/api
-export FIELD_GUIDE=~/5303/5303-Database-Field-Guide    # add to ~/.zshrc or ~/.bashrc
+mkdir -p ~/5303/my-repo/Performance_Project
+cp -R ~/5303/5303-Database-Field-Guide/assignments/Performance_Project/lab/api/starter_code \
+      ~/5303/my-repo/Performance_Project/api
+export FIELD_GUIDE="$HOME/5303/5303-Database-Field-Guide/assignments/Performance_Project"   # add to ~/.zshrc or ~/.bashrc
 ```
 
 ## 5. The everyday loop
 
 ```bash
-cd ~/5303/5303-work
-git add -A
-git commit -m "SQLite 07: driver results and plan summaries"
+cd ~/5303/my-repo
+git add Performance_Project
+git commit -m "Performance SQLite 07: driver results and plan summaries"
 git push
 ```
 
@@ -110,8 +123,8 @@ breaks.
 ```bash
 git --version
 cd ~/5303/5303-Database-Field-Guide && git pull     # "Already up to date."
-cd ~/5303/5303-work && git status                   # "On branch main"
+cd ~/5303/my-repo && git status                     # "On branch main"
 ```
 
-Then open your `5303-work` repo on github.com and confirm it's there and
-private.
+Then open your course repo on github.com and confirm `Performance_Project/`
+is there.

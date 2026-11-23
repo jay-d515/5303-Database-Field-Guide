@@ -1,4 +1,21 @@
----
+<details>
+<summary>⚙️ Details</summary>
+
+```yaml
+is_due: true
+id: A01-Caching_Project
+name: A01-Caching_Project
+title: Redis Caching
+description: When Does a Cache Actually Help?
+category: Assignments
+date_due:
+  month: '12'
+  day: '04'
+  year: 2026
+  hour: 17
+```
+
+</details>
 
 # Redis Caching: When Does a Cache Actually Help?
 

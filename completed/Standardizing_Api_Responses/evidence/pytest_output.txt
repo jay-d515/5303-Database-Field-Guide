@@ -1,0 +1,7 @@
+evidence/pytest_output.txt  (one evidence option)
+
+Paste the full output of:
+
+    pytest -v
+
+All ten Part 6 tests should appear by name with PASSED.

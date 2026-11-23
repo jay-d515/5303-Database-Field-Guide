@@ -1,0 +1,1 @@
+run,ttl_s,requests,duration_s,avg_ms,p95_ms,requests_per_sec,hits,misses,db_queries

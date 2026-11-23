@@ -1,18 +1,18 @@
 <details>
-<summary>⚙️ Metadata (auto-managed by <code>readmees</code> — edit values, not structure)</summary>
+<summary>⚙️ Details</summary>
 
 ```yaml
 is_due: true
-id: A03-standardizing_api_responses
-name: A03-standardizing_api_responses
-title: 'Assignment: Standardizing REST API Responses'
+id: A03-Standardizing_Api_Responses
+name: A03-Standardizing_Api_Responses
+title: Standardizing REST API Responses
 description: REST APIs, MongoDB, Response Models, and Pagination
 category: Assignments
 date_due:
-  month: '11'
-  day: '06'
+  month: '12'
+  day: '04'
   year: 2026
-  hour: 16
+  hour: 17
 ```
 
 </details>

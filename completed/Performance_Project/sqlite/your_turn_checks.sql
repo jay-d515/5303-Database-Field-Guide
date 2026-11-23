@@ -1,0 +1,6 @@
+-- your_turn_checks.sql  (required)
+--
+-- Your COPY of engines/01_sqlite/04_model/your_turn_checks.sql from the
+-- field guide, with every one of the 22 checks completed: your prediction,
+-- what it actually returned, and what it means for your design.
+-- The surprises are worth more than the confirmations.

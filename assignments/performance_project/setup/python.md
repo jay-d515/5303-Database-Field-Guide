@@ -29,7 +29,7 @@ project. The API's FastAPI version can't clash with another class's, and
 deleting the folder undoes everything.
 
 ```bash
-cd ~/5303/5303-work/api
+cd ~/5303/my-repo/Performance_Project/api
 python3 -m venv .venv                 # Windows: py -m venv .venv
 source .venv/bin/activate             # Windows: .venv\Scripts\activate
 ```

@@ -1,7 +1,8 @@
 # FINDINGS template
 
 Copy the part between the lines below to `FINDINGS_<engine>.md`
-(e.g. `FINDINGS_sqlite.md`) in your own repo, one file per unit, and fill it in.
+(e.g. `FINDINGS_sqlite.md`) in your course repo's `Performance_Project/<engine>/`
+folder, one file per unit, and fill it in.
 
 Keep answers short: one to three sentences each. Every answer points at a
 **number** from your results or a **plan line**. An answer without one is

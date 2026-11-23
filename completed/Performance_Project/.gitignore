@@ -1,0 +1,23 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+
+# Generated databases and exports: rebuild them, never commit them
+*.db
+*.db-wal
+*.db-shm
+*.duckdb
+*.duckdb.wal
+*.parquet
+export_*/
+
+# Secrets
+.env
+!.env.example
+
+.DS_Store
+
+# Driver results (api/results_*/) are NOT ignored: commit them.

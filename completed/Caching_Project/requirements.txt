@@ -1,0 +1,4 @@
+# requirements.txt  (required: "dependency list")
+# One package per line. The handout installs fastapi, uvicorn, and redis.
+# Add whatever else you import: an HTTP client for benchmark.py, matplotlib
+# for make_graphs.py, locust if you used it, and so on.

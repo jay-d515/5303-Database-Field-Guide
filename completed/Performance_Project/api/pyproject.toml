@@ -1,0 +1,5 @@
+# pyproject.toml  (copied unchanged from the field guide's lab/api/starter_code)
+#
+# The whole api/ folder starts as a copy of the starter code:
+#   cp -R ~/5303/5303-Database-Field-Guide/assignments/Performance_Project/lab/api/starter_code \
+#         ~/5303/my-repo/Performance_Project/api

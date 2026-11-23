@@ -1,12 +1,12 @@
 <details>
-<summary>⚙️ Metadata (auto-managed by <code>readmees</code> — edit values, not structure)</summary>
+<summary>⚙️ Details</summary>
 
 ```yaml
 is_due: true
-id: A02-performance_project
-name: A02-performance_project
-title: 'Assignment: Comparing Sqlite and DuckDB'
-description: Using performance tool to benchmark different db's
+id: A02-Performance_Project
+name: A02-Performance_Project
+title: Comparing SQLite and DuckDB
+description: Using a performance tool to benchmark different databases
 category: Assignments
 date_due:
   month: '12'

@@ -1,90 +1,118 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>06c – CORS experiment</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.11"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
-</head>
-<body class="bg-gray-50 text-gray-900">
-<main class="max-w-2xl mx-auto p-6 space-y-4" x-data="corsExperiment()">
-    <h1 class="text-2xl font-bold">CORS experiment</h1>
-    <p class="text-gray-600">
-        Open this page three ways (see "Optional: the CORS exercise" in the README) and
-        press both buttons each time. Keep the browser console (F12) and the terminal running
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
+    ></script>
+  </head>
+  <body class="bg-gray-50 text-gray-900">
+    <main class="max-w-2xl mx-auto p-6 space-y-4" x-data="corsExperiment()">
+      <h1 class="text-2xl font-bold">CORS experiment</h1>
+      <p class="text-gray-600">
+        Open this page three ways (see "Optional: the CORS exercise" in the
+        README) and press both buttons each time. Keep the browser console (F12)
+        and the terminal running
         <code>api.py</code> both visible.
-    </p>
+      </p>
 
-    <section class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-2">
+      <section
+        class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-2"
+      >
         <!-- location.origin is the origin of THIS page: scheme + host + port -->
-        <p>This page's origin: <code class="bg-gray-100 px-1 rounded" x-text="pageOrigin"></code></p>
+        <p>
+          This page's origin:
+          <code class="bg-gray-100 px-1 rounded" x-text="pageOrigin"></code>
+        </p>
         <label class="block">
-            <span class="block font-medium mb-1">API address</span>
-            <input type="text" x-model.trim="apiBase"
-                   class="w-full border border-gray-300 rounded px-3 py-2 font-mono">
+          <span class="block font-medium mb-1">API address</span>
+          <input
+            type="text"
+            x-model.trim="apiBase"
+            class="w-full border border-gray-300 rounded px-3 py-2 font-mono"
+          />
         </label>
-    </section>
+      </section>
 
-    <section class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-4">
+      <section
+        class="bg-white border border-gray-200 rounded-lg shadow-sm p-6 space-y-4"
+      >
         <div class="flex flex-wrap gap-2">
-            <button type="button" @click="tryFetch('/api/customers')"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded">
-                fetch('/api/customers')
-            </button>
-            <button type="button" @click="tryFetch(apiBase + '/api/customers')"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded">
-                fetch(API address + '/api/customers')
-            </button>
+          <button
+            type="button"
+            @click="tryFetch('/api/customers')"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
+          >
+            fetch('/api/customers')
+          </button>
+          <button
+            type="button"
+            @click="tryFetch(apiBase + '/api/customers')"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded"
+          >
+            fetch(API address + '/api/customers')
+          </button>
         </div>
 
         <template x-for="(r, i) in results" :key="i">
-            <div class="rounded p-3 text-sm"
-                 :class="r.ok ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-700'">
-                <p class="font-mono" x-text="`fetch('${r.url}')`"></p>
-                <p x-text="r.summary"></p>
-            </div>
+          <div
+            class="rounded p-3 text-sm"
+            :class="r.ok ? 'bg-green-50 border border-green-200 text-green-800' : 'bg-red-50 border border-red-200 text-red-700'"
+          >
+            <p class="font-mono" x-text="`fetch('${r.url}')`"></p>
+            <p x-text="r.summary"></p>
+          </div>
         </template>
 
         <p class="text-sm text-gray-500">
-            To see the CORS header itself, open DevTools → Network, click the <code>customers</code>
-            request, and look under Response Headers for <code>access-control-allow-origin</code>.
-            JavaScript can't read that header, only the browser can.
+          To see the CORS header itself, open DevTools → Network, click the
+          <code>customers</code> request, and look under Response Headers for
+          <code>access-control-allow-origin</code>. JavaScript can't read that
+          header, only the browser can.
         </p>
-    </section>
-</main>
+      </section>
+    </main>
 
-<script>
-    function corsExperiment() {
+    <script>
+      function corsExperiment() {
         return {
-            // A page opened from disk sends the origin "null" with its requests
-            // (location.origin may print "file://", but servers see "null").
-            pageOrigin: location.protocol === 'file:' ? 'null (opened from disk)' : location.origin,
-            apiBase: 'http://127.0.0.1:8000',
-            results: [],
+          // A page opened from disk sends the origin "null" with its requests
+          // (location.origin may print "file://", but servers see "null").
+          pageOrigin:
+            location.protocol === "file:"
+              ? "null (opened from disk)"
+              : location.origin,
+          apiBase: "http://127.0.0.1:8000",
+          results: [],
 
-            async tryFetch(url) {
-                const result = { url, ok: false, summary: '' };
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        result.summary = `The request reached a server, which answered ${response.status}. ` +
-                                         `Which server? Compare the URL with this page's origin.`;
-                    } else {
-                        const data = await response.json();
-                        result.ok = true;
-                        result.summary = `Worked: received ${data.length} customers.`;
-                    }
-                } catch (err) {
-                    // A CORS block and an unreachable server look the same to JavaScript:
-                    // a TypeError with a vague message. The console has the real reason.
-                    result.summary = `${err.name}: ${err.message}. JavaScript isn't told why. ` +
-                                     `Read the console, and check whether the api.py terminal logged the request.`;
-                }
-                this.results.unshift(result);
-            },
+          async tryFetch(url) {
+            const result = { url, ok: false, summary: "" };
+            try {
+              const response = await fetch(url);
+              if (!response.ok) {
+                result.summary =
+                  `The request reached a server, which answered ${response.status}. ` +
+                  `Which server? Compare the URL with this page's origin.`;
+              } else {
+                const data = await response.json();
+                result.ok = true;
+                result.summary = `Worked: received ${data.length} customers.`;
+              }
+            } catch (err) {
+              // A CORS block and an unreachable server look the same to JavaScript:
+              // a TypeError with a vague message. The console has the real reason.
+              result.summary =
+                `${err.name}: ${err.message}. JavaScript isn't told why. ` +
+                `Read the console, and check whether the api.py terminal logged the request.`;
+            }
+            this.results.unshift(result);
+          },
         };
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>

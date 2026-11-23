@@ -1,0 +1,4 @@
+# requirements.txt  (recommended)
+# One package per line, the ones your API and tests import.
+# Typical: fastapi, uvicorn, pymongo, pydantic, plus pytest and httpx for tests.
+# Add redis if you started from lessons/14-redis-cache.
